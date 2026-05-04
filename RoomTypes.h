@@ -8,7 +8,7 @@ public:
     SingleRoom(int num) : Room(num) {}
 
     string getRoomType() override {
-        return "Single Room";
+        return "Amazing Single Room";
     }
 };
 
@@ -17,7 +17,7 @@ public:
     DoubleRoom(int num) : Room(num) {}
 
     string getRoomType() override {
-        return "Double Room";
+        return "Delux Double Room";
     }
 };
 
@@ -26,7 +26,7 @@ public:
     SuiteRoom(int num) : Room(num) {}
 
     string getRoomType() override {
-        return "Suite Room";
+        return "Beautiful Suite Room";
     }
 };
 
