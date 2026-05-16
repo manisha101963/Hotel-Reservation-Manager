@@ -8,6 +8,8 @@ public:
     DeluxeRoom(int num);
 
     string getRoomType() override;
+
+    void showFeatures() override;
 };
 
 #endif

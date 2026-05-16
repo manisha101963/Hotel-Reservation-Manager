@@ -1,5 +1,5 @@
 #include "../include/Room.h"
-
+#include <iostream>
 Room::Room(int num) {
     roomNumber = num;
     isBooked = false;
@@ -23,4 +23,8 @@ void Room::bookRoom() {
 
 void Room::cancelBooking() {
     isBooked = false;
+}
+
+void Room::showFeatures() {
+    cout << "General room features." << endl;
 }

@@ -8,6 +8,8 @@ public:
     DoubleRoom(int num);
 
     string getRoomType() override;
+
+    void showFeatures() override;
 };
 
 #endif
