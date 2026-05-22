@@ -1,1 +1,3 @@
-
+P001|Credit Card|Manisha Thapa|****5678|450000
+P002|Debit Card|John Kim|****1234|140000
+P003|Credit Card|Sarah Lee|****9876|600000
