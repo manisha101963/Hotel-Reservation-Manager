@@ -1,1 +1,3 @@
-
+U001|manisha|1234|manisha@gmail.com
+U002|johnkim|pass567|john@gmail.com
+U003|sarahlee|hotel890|sarah@gmail.com
