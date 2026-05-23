@@ -39,7 +39,7 @@ int main() {
 
     showAllRoomFeatures();
 
-    cout << "\nHow can we help you?" << endl;
+    cout << "\nNow, Which room would you like to book." << endl;
 
     cout << "\n1. Single Room" << endl;
     cout << "2. Double Room" << endl;
