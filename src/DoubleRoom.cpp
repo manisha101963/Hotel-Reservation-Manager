@@ -1,7 +1,7 @@
 #include "../include/DoubleRoom.h"
 #include <iostream>
 DoubleRoom::DoubleRoom(int num)
-    : Room(num) {
+    : Room(num,14000) {
 }
 
 string DoubleRoom::getRoomType() {
@@ -15,4 +15,7 @@ void DoubleRoom::showFeatures() {
     cout << "- TV" << endl;
     cout << "- Room key" << endl;
     cout << "- Extra charges for additional services" << endl;
+     cout << "- Price per night: "
+         << getPricePerNight()
+         << " KRW" << endl;
 }

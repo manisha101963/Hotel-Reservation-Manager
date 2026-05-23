@@ -1,7 +1,7 @@
 #include "../include/DeluxeRoom.h"
 #include <iostream>
 DeluxeRoom::DeluxeRoom(int num)
-    : Room(num) {
+    : Room(num,21000) {
 }
 
 string DeluxeRoom::getRoomType() {
@@ -16,4 +16,7 @@ void DeluxeRoom::showFeatures() {
     cout << "- Private swimming pool" << endl;
     cout << "- TV projector" << endl;
     cout << "- Premium room key" << endl;
+     cout << "- Price per night: "
+         << getPricePerNight()
+         << " KRW" << endl;
 }
