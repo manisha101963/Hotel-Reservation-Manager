@@ -2,7 +2,7 @@
 
 #include "../include/HotelManager.h"
 #include "../include/Guest.h"
-
+#include "../include/Reservation.h"
 using namespace std;
 
 void showAllRoomFeatures() {
@@ -90,16 +90,36 @@ int main() {
 
     Guest guest1(guestId, name, phone);
 
-    selectedRoom->bookRoom();
+   string checkInDate;
+string checkOutDate;
+int nights;
 
-    cout << "\nRoom booked successfully!" << endl;
-    cout << "Booked Room Number: " << selectedRoom->getRoomNumber() << endl;
-    cout << "Room Type: " << selectedRoom->getRoomType() << endl;
+cout << "\nEnter Check-in Date: ";
+getline(cin, checkInDate);
 
-    cout << "\nGuest Information" << endl;
-    cout << "Guest ID: " << guest1.getGuestId() << endl;
-    cout << "Name: " << guest1.getName() << endl;
-    cout << "Phone: " << guest1.getPhone() << endl;
+cout << "Enter Check-out Date: ";
+getline(cin, checkOutDate);
 
-    return 0;
+cout << "Enter Number of Nights: ";
+cin >> nights;
+
+double totalPrice =
+    selectedRoom->getPricePerNight() * nights;
+
+Reservation reservation1(
+    1001,
+    guest1,
+    selectedRoom->getRoomNumber(),
+    selectedRoom->getRoomType(),
+    checkInDate,
+    checkOutDate,
+    nights,
+    totalPrice
+);
+
+selectedRoom->bookRoom();
+
+reservation1.showConfirmation();
+
+return 0;
 }
