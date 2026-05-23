@@ -52,7 +52,23 @@ int main() {
         cout << "\nInvalid choice." << endl;
         return 0;
     }
+if (choice == 1) {
+    cout << "\nExcellent choice!" << endl;
+    cout << "Our Single Rooms are perfect for solo travelers." << endl;
+    cout << "Let's continue with your booking." << endl;
+}
 
+else if (choice == 2) {
+    cout << "\nPerfect choice!" << endl;
+    cout << "Our Double Rooms are great for couples and friends." << endl;
+    cout << "Let's continue with your booking." << endl;
+}
+
+else if (choice == 3) {
+    cout << "\nWonderful choice!" << endl;
+    cout << "Our Deluxe Rooms offer premium luxury and comfort." << endl;
+    cout << "Let's continue with your booking." << endl;
+}
     hotel.showRoomsByType(choice);
 
     cout << "\nWhich room number do you want to book? ";
