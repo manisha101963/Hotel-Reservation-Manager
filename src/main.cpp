@@ -5,6 +5,25 @@
 
 using namespace std;
 
+void showAllRoomFeatures() {
+    SingleRoom single(101);
+    DoubleRoom doubleRoom(201);
+    DeluxeRoom deluxe(301);
+
+    cout << "\n========== Room Types & Features ==========" << endl;
+
+    cout << "\n[1] Single Room" << endl;
+    single.showFeatures();
+
+    cout << "\n[2] Double Room" << endl;
+    doubleRoom.showFeatures();
+
+    cout << "\n[3] Deluxe Room" << endl;
+    deluxe.showFeatures();
+
+    cout << "\n===========================================" << endl;
+}
+
 int main() {
 
     HotelManager hotel;
@@ -15,6 +34,10 @@ int main() {
     cout << "===================================" << endl;
     cout << "       Welcome to MPS Hotel" << endl;
     cout << "===================================" << endl;
+
+    cout << "\nBefore booking, please check our room types and features." << endl;
+
+    showAllRoomFeatures();
 
     cout << "\nHow can we help you?" << endl;
 
@@ -28,22 +51,6 @@ int main() {
     if (choice < 1 || choice > 3) {
         cout << "\nInvalid choice." << endl;
         return 0;
-    }
-
-    if (choice == 1) {
-        SingleRoom tempRoom(101);
-        cout << "\n";
-        tempRoom.showFeatures();
-    }
-    else if (choice == 2) {
-        DoubleRoom tempRoom(201);
-        cout << "\n";
-        tempRoom.showFeatures();
-    }
-    else if (choice == 3) {
-        DeluxeRoom tempRoom(301);
-        cout << "\n";
-        tempRoom.showFeatures();
     }
 
     hotel.showRoomsByType(choice);
