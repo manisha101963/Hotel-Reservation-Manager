@@ -1,12 +1,14 @@
 #include "../include/Room.h"
-#include <iostream>
-Room::Room(int num) {
+
+Room::Room(int num, double price) {
+
     roomNumber = num;
+    pricePerNight = price;
     isBooked = false;
 }
 
 string Room::getRoomType() {
-    return "General Room";
+    return "Room";
 }
 
 int Room::getRoomNumber() {
@@ -15,6 +17,10 @@ int Room::getRoomNumber() {
 
 bool Room::getStatus() {
     return isBooked;
+}
+
+double Room::getPricePerNight() {
+    return pricePerNight;
 }
 
 void Room::bookRoom() {
@@ -26,5 +32,5 @@ void Room::cancelBooking() {
 }
 
 void Room::showFeatures() {
-    cout << "General room features." << endl;
+
 }
