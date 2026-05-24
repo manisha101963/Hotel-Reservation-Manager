@@ -3,6 +3,8 @@
 #include "../include/HotelManager.h"
 #include "../include/Guest.h"
 #include "../include/Reservation.h"
+#include "../include/Payment.h"
+#include <cctype>
 using namespace std;
 
 void showAllRoomFeatures() {
@@ -22,6 +24,27 @@ void showAllRoomFeatures() {
     deluxe.showFeatures();
 
     cout << "\n===========================================" << endl;
+}
+bool isValidDate(string date) {
+    if (date.length() != 10) {
+        return false;
+    }
+
+    if (date[4] != '-' || date[7] != '-') {
+        return false;
+    }
+
+    for (int i = 0; i < date.length(); i++) {
+        if (i == 4 || i == 7) {
+            continue;
+        }
+
+        if (!isdigit(date[i])) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 int main() {
@@ -110,17 +133,53 @@ else if (choice == 3) {
 string checkOutDate;
 int nights;
 
-cout << "\nEnter Check-in Date: ";
-getline(cin, checkInDate);
+do {
+    cout << "\nEnter Check-in Date (YYYY-MM-DD): ";
+    getline(cin, checkInDate);
 
-cout << "Enter Check-out Date: ";
-getline(cin, checkOutDate);
+    if (!isValidDate(checkInDate)) {
+        cout << "Invalid date format. Please use YYYY-MM-DD." << endl;
+    }
+
+} while (!isValidDate(checkInDate));
+
+do {
+    cout << "Enter Check-out Date (YYYY-MM-DD): ";
+    getline(cin, checkOutDate);
+
+    if (!isValidDate(checkOutDate)) {
+        cout << "Invalid date format. Please use YYYY-MM-DD." << endl;
+    }
+
+} while (!isValidDate(checkOutDate));
 
 cout << "Enter Number of Nights: ";
 cin >> nights;
 
 double totalPrice =
     selectedRoom->getPricePerNight() * nights;
+    string paymentMethod;
+string cardHolderName;
+string cardNumber;
+
+cin.ignore();
+
+cout << "\nEnter Payment Method: ";
+getline(cin, paymentMethod);
+
+cout << "Enter Card Holder Name: ";
+getline(cin, cardHolderName);
+
+cout << "Enter Card Number: ";
+getline(cin, cardNumber);
+
+Payment payment1(
+    paymentMethod,
+    cardHolderName,
+    cardNumber
+);
+
+payment1.processPayment();
 
 Reservation reservation1(
     1001,
@@ -130,7 +189,8 @@ Reservation reservation1(
     checkInDate,
     checkOutDate,
     nights,
-    totalPrice
+    totalPrice,
+    payment1
 );
 
 selectedRoom->bookRoom();
