@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Guest.h"
+#include "Payment.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ private:
     string checkOutDate;
     int nights;
     double totalPrice;
+    Payment payment;
 
 public:
     Reservation();
@@ -27,7 +29,8 @@ public:
                 string checkIn,
                 string checkOut,
                 int numberOfNights,
-                double total);
+                double total,
+              Payment paymentInfo);
 
     double calculateTotal(double pricePerNight, int numberOfNights);
 

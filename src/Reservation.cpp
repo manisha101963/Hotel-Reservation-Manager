@@ -1,4 +1,5 @@
 #include "../include/Reservation.h"
+
 #include <iostream>
 
 using namespace std;
@@ -20,7 +21,9 @@ Reservation::Reservation(int id,
                          string checkIn,
                          string checkOut,
                          int numberOfNights,
-                         double total) {
+                         double total,
+                         Payment paymentInfo
+                        ) {
     reservationId = id;
     guest = guestInfo;
     roomNumber = roomNum;
@@ -29,6 +32,7 @@ Reservation::Reservation(int id,
     checkOutDate = checkOut;
     nights = numberOfNights;
     totalPrice = total;
+    payment = paymentInfo;
 }
 
 double Reservation::calculateTotal(double pricePerNight, int numberOfNights) {
