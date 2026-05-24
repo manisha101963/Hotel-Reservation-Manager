@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 #include "../include/HotelManager.h"
 #include "../include/Guest.h"
@@ -62,19 +63,16 @@ int main() {
 
     showAllRoomFeatures();
 
-    cout << "\nNow, Which room would you like to book." << endl;
-
-    cout << "\n1. Single Room" << endl;
-    cout << "2. Double Room" << endl;
-    cout << "3. Deluxe Room" << endl;
-
-    cout << "\nChoose your room type: ";
+do {
+    cout << "\nPlease choose your preferred room type:";
     cin >> choice;
 
     if (choice < 1 || choice > 3) {
-        cout << "\nInvalid choice." << endl;
-        return 0;
+        cout << "\nSorry, we do not have that room type." << endl;
+        cout << "Please choose again." << endl;
     }
+
+} while (choice < 1 || choice > 3);
 if (choice == 1) {
     cout << "\nExcellent choice!" << endl;
     cout << "Our Single Rooms are perfect for solo travelers." << endl;
@@ -97,17 +95,20 @@ else if (choice == 3) {
     cout << "\nWhich room number do you want to book? ";
     cin >> roomNumber;
 
-    Room* selectedRoom = hotel.findRoom(roomNumber);
+   Room* selectedRoom = nullptr;
+
+do {
+    cout << "\nWhich room number do you want to book? ";
+    cin >> roomNumber;
+
+    selectedRoom = hotel.findRoom(roomNumber);
 
     if (selectedRoom == nullptr) {
-        cout << "\nRoom not found." << endl;
-        return 0;
+        cout << "\nSorry, that room does not exist." << endl;
+        cout << "Please choose an available room number." << endl;
     }
 
-    if (selectedRoom->getStatus()) {
-        cout << "\nSorry, this room is already booked." << endl;
-        return 0;
-    }
+} while (selectedRoom == nullptr);
 
     cout << "\nRoom " << roomNumber << " is available." << endl;
     cout << "Please enter guest information." << endl;
@@ -153,8 +154,15 @@ do {
 
 } while (!isValidDate(checkOutDate));
 
-cout << "Enter Number of Nights: ";
-cin >> nights;
+do {
+    cout << "Enter Number of Nights: ";
+    cin >> nights;
+
+    if (nights <= 0) {
+        cout << "Number of nights must be greater than 0." << endl;
+    }
+
+} while (nights <= 0);
 
 double totalPrice =
     selectedRoom->getPricePerNight() * nights;
@@ -164,14 +172,49 @@ string cardNumber;
 
 cin.ignore();
 
-cout << "\nEnter Payment Method: ";
-getline(cin, paymentMethod);
+int paymentChoice;
 
-cout << "Enter Card Holder Name: ";
-getline(cin, cardHolderName);
+do {
+    cout << "\nSelect Payment Method" << endl;
+    cout << "1. Credit Card" << endl;
+    cout << "2. Debit Card" << endl;
 
-cout << "Enter Card Number: ";
-getline(cin, cardNumber);
+    cout << "Enter choice: ";
+    cin >> paymentChoice;
+
+    if (paymentChoice == 1) {
+        paymentMethod = "Credit Card";
+    }
+    else if (paymentChoice == 2) {
+        paymentMethod = "Debit Card";
+    }
+    else {
+        cout << "Invalid payment option. Please try again." << endl;
+    }
+
+} while (paymentChoice != 1 && paymentChoice != 2);
+
+cin.ignore();
+
+do {
+    cout << "Enter Card Holder Name: ";
+    getline(cin, cardHolderName);
+
+    if (cardHolderName.empty()) {
+        cout << "Card holder name cannot be empty." << endl;
+    }
+
+} while (cardHolderName.empty());
+
+do {
+    cout << "Enter Card Number: ";
+    getline(cin, cardNumber);
+
+    if (cardNumber.empty()) {
+        cout << "Card number cannot be empty." << endl;
+    }
+
+} while (cardNumber.empty());
 
 Payment payment1(
     paymentMethod,
@@ -180,9 +223,9 @@ Payment payment1(
 );
 
 payment1.processPayment();
-
+static int nextReservationId = 1001;
 Reservation reservation1(
-    1001,
+  nextReservationId++,
     guest1,
     selectedRoom->getRoomNumber(),
     selectedRoom->getRoomType(),
@@ -196,6 +239,27 @@ Reservation reservation1(
 selectedRoom->bookRoom();
 
 reservation1.showConfirmation();
+ofstream outFile("data/reservations.txt", ios::app);
+
+if (outFile.is_open()) {
+    outFile << reservation1.getReservationId() << "|"
+            << guest1.getGuestId() << "|"
+            << guest1.getName() << "|"
+            << guest1.getPhone() << "|"
+            << selectedRoom->getRoomNumber() << "|"
+            << selectedRoom->getRoomType() << "|"
+            << checkInDate << "|"
+            << checkOutDate << "|"
+            << nights << "|"
+            << totalPrice << endl;
+
+    outFile.close();
+
+    cout << "\nReservation saved to file successfully." << endl;
+}
+else {
+    cout << "\nError: Could not open reservations file." << endl;
+}
 
 return 0;
 }

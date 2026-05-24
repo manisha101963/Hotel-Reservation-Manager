@@ -58,11 +58,8 @@ void Reservation::showConfirmation() {
     cout << "Number of Nights: " << nights << endl;
     cout << "Total Price: " << totalPrice << " KRW" << endl;
     cout << "\nPayment Information" << endl;
-cout << "Payment Method: "
-     << payment.getPaymentMethod() << endl;
-
-cout << "Card Number: "
-     << payment.getMaskedCardNumber() << endl;
+    cout << "Payment Method: "<< payment.getPaymentMethod() << endl;
+    cout << "Card Number: " << payment.getMaskedCardNumber() << endl;
 
     cout << "\nThank you for choosing MPS Hotel!" << endl;
 }
