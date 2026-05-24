@@ -115,8 +115,20 @@ void HotelManager::loadBookedRoomsFromFile() {
         getline(ss, guestName, '|');
         getline(ss, guestPhone, '|');
         getline(ss, roomNumberText, '|');
+     
+        if (roomNumberText.empty()) {
+    continue;
+}
 
-        int bookedRoomNumber = stoi(roomNumberText);
+int bookedRoomNumber;
+
+try {
+    bookedRoomNumber = stoi(roomNumberText);
+}
+catch (...) {
+    continue;
+}
+     
 
         Room* room = findRoom(bookedRoomNumber);
 
