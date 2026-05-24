@@ -2,6 +2,8 @@
 #include <fstream>
 #include <cctype>
 #include <limits>
+#include <vector>
+#include <sstream>
 
 #include "../include/HotelManager.h"
 #include "../include/Guest.h"
@@ -49,12 +51,123 @@ bool isValidDate(string date) {
 
     return true;
 }
+void viewReservations() {
+    ifstream inFile("data/reservations.txt");
 
+    if (!inFile.is_open()) {
+        cout << "\nNo reservation file found." << endl;
+        return;
+    }
+
+    string line;
+
+    cout << "\n========== Saved Reservations ==========" << endl;
+
+    while (getline(inFile, line)) {
+        cout << line << endl;
+    }
+
+    cout << "========================================" << endl;
+
+    inFile.close();
+}
+void cancelReservation() {
+
+    ifstream inFile("data/reservations.txt");
+
+    if (!inFile.is_open()) {
+        cout << "\nReservation file not found." << endl;
+        return;
+    }
+
+    vector<string> reservations;
+
+    string line;
+    int cancelId;
+
+    cout << "\nEnter Reservation ID to cancel: ";
+    cin >> cancelId;
+
+    bool found = false;
+
+    while (getline(inFile, line)) {
+
+        stringstream ss(line);
+
+        string reservationIdText;
+
+        getline(ss, reservationIdText, '|');
+
+       if (reservationIdText.empty()) {
+    continue;
+}
+
+int reservationId;
+
+try {
+    reservationId = stoi(reservationIdText);
+}
+catch (...) {
+    continue;
+}
+
+        if (reservationId == cancelId) {
+            found = true;
+            continue;
+        }
+
+        reservations.push_back(line);
+    }
+
+    inFile.close();
+
+    ofstream outFile("data/reservations.txt");
+
+    for (string reservation : reservations) {
+        outFile << reservation << endl;
+    }
+
+    outFile.close();
+
+    if (found) {
+        cout << "\nReservation cancelled successfully." << endl;
+    }
+    else {
+        cout << "\nReservation ID not found." << endl;
+    }
+}
 int main() {
 
     HotelManager hotel;
     hotel.loadBookedRoomsFromFile();
+     int mainChoice;
 
+cout << "\n1. Book Room" << endl;
+cout << "2. View Reservations" << endl;
+cout << "3. Cancel Reservation" << endl;
+cout << "4. Exit" << endl;
+cout << "Enter choice: ";
+cin >> mainChoice;
+
+if (mainChoice == 2) {
+    viewReservations();
+    return 0;
+}
+
+if (mainChoice == 3) {
+    cancelReservation();
+    return 0;
+}
+
+if (mainChoice == 4) {
+    cout << "\nThank you for visiting MPS Hotel." << endl;
+    return 0;
+}
+
+if (mainChoice != 1) {
+    cout << "\nInvalid choice." << endl;
+    return 0;
+}
     int choice;
     int roomNumber;
 
