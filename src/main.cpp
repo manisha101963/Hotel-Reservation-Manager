@@ -1,11 +1,13 @@
 #include <iostream>
 #include <fstream>
+#include <cctype>
+#include <limits>
 
 #include "../include/HotelManager.h"
 #include "../include/Guest.h"
 #include "../include/Reservation.h"
 #include "../include/Payment.h"
-#include <cctype>
+
 using namespace std;
 
 void showAllRoomFeatures() {
@@ -51,6 +53,7 @@ bool isValidDate(string date) {
 int main() {
 
     HotelManager hotel;
+    hotel.loadBookedRoomsFromFile();
 
     int choice;
     int roomNumber;
@@ -92,9 +95,6 @@ else if (choice == 3) {
 }
     hotel.showRoomsByType(choice);
 
-    cout << "\nWhich room number do you want to book? ";
-    cin >> roomNumber;
-
    Room* selectedRoom = nullptr;
 
 do {
@@ -117,18 +117,74 @@ do {
     string name;
     string phone;
 
+while (true) {
     cout << "\nEnter Guest ID: ";
     cin >> guestId;
 
-    cin.ignore();
+    if (cin.fail()) {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << "Invalid Guest ID. Please enter numbers only." << endl;
+    }
+    else {
+        cin.ignore(1000, '\n');
+        break;
+    }
+}
 
+do {
     cout << "Enter Guest Name: ";
     getline(cin, name);
 
+    bool validName = true;
+
+    if (name.empty()) {
+        validName = false;
+    }
+
+    for (char c : name) {
+        if (!isalpha(c) && c != ' ') {
+            validName = false;
+            break;
+        }
+    }
+
+    if (!validName) {
+        cout << "Invalid name. Please enter letters only." << endl;
+    }
+    else {
+        break;
+    }
+
+} while (true);
+
+do {
     cout << "Enter Phone Number: ";
     getline(cin, phone);
 
-    Guest guest1(guestId, name, phone);
+    bool validPhone = true;
+
+    if (phone.empty()) {
+        validPhone = false;
+    }
+
+    for (char c : phone) {
+        if (!isdigit(c)) {
+            validPhone = false;
+            break;
+        }
+    }
+
+    if (!validPhone) {
+        cout << "Invalid phone number. Please enter digits only." << endl;
+    }
+    else {
+        break;
+    }
+
+} while (true);
+
+Guest guest1(guestId, name, phone);
 
    string checkInDate;
 string checkOutDate;

@@ -1,4 +1,6 @@
 #include "../include/HotelManager.h"
+#include <fstream>
+#include <sstream>
 
 #include <iostream>
 
@@ -90,4 +92,38 @@ Room* HotelManager::findRoom(int roomNumber) {
     }
 
     return nullptr;
+}
+void HotelManager::loadBookedRoomsFromFile() {
+    ifstream inFile("data/reservations.txt");
+
+    if (!inFile.is_open()) {
+        return;
+    }
+
+    string line;
+
+    while (getline(inFile, line)) {
+        stringstream ss(line);
+        string reservationId;
+        string guestId;
+        string guestName;
+        string guestPhone;
+        string roomNumberText;
+
+        getline(ss, reservationId, '|');
+        getline(ss, guestId, '|');
+        getline(ss, guestName, '|');
+        getline(ss, guestPhone, '|');
+        getline(ss, roomNumberText, '|');
+
+        int bookedRoomNumber = stoi(roomNumberText);
+
+        Room* room = findRoom(bookedRoomNumber);
+
+        if (room != nullptr) {
+            room->bookRoom();
+        }
+    }
+
+    inFile.close();
 }

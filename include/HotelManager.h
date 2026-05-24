@@ -17,6 +17,7 @@ public:
     void showRoomsByType(int choice);
 
     Room* findRoom(int roomNumber);
+    void loadBookedRoomsFromFile();
 };
 
 #endif
