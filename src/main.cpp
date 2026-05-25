@@ -345,6 +345,15 @@ do {
 } while (true);
 
 Guest guest1(guestId, name, phone);
+ofstream guestFile("data/guests.txt", ios::app);
+
+if (guestFile.is_open()) {
+    guestFile << guest1.getGuestId() << "|"
+              << guest1.getName() << "|"
+              << guest1.getPhone() << endl;
+
+    guestFile.close();
+}
 
    string checkInDate;
 string checkOutDate;
@@ -416,21 +425,53 @@ do {
     cout << "Enter Card Holder Name: ";
     getline(cin, cardHolderName);
 
+    bool validCardHolder = true;
+
     if (cardHolderName.empty()) {
-        cout << "Card holder name cannot be empty." << endl;
+        validCardHolder = false;
     }
 
-} while (cardHolderName.empty());
+    for (char c : cardHolderName) {
+        if (!isalpha(c) && c != ' ') {
+            validCardHolder = false;
+            break;
+        }
+    }
+
+    if (!validCardHolder) {
+        cout << "Invalid card holder name. Please enter letters only." << endl;
+    }
+    else {
+        break;
+    }
+
+} while (true);
 
 do {
     cout << "Enter Card Number: ";
     getline(cin, cardNumber);
 
+    bool validCard = true;
+
     if (cardNumber.empty()) {
-        cout << "Card number cannot be empty." << endl;
+        validCard = false;
     }
 
-} while (cardNumber.empty());
+    for (char c : cardNumber) {
+        if (!isdigit(c)) {
+            validCard = false;
+            break;
+        }
+    }
+
+    if (!validCard) {
+        cout << "Invalid card number. Please enter digits only." << endl;
+    }
+    else {
+        break;
+    }
+
+} while (true);
 
 Payment payment1(
     paymentMethod,
@@ -438,8 +479,20 @@ Payment payment1(
     cardNumber
 );
 
-payment1.processPayment();
 int nextReservationId = getNextReservationId();
+payment1.processPayment();
+ofstream paymentFile("data/payments.txt", ios::app);
+
+if (paymentFile.is_open()) {
+
+    paymentFile << nextReservationId << "|"
+                << paymentMethod << "|"
+                << payment1.getMaskedCardNumber()
+                << endl;
+
+    paymentFile.close();
+}
+
 Reservation reservation1(
   nextReservationId++,
     guest1,
