@@ -494,7 +494,7 @@ if (paymentFile.is_open()) {
 }
 
 Reservation reservation1(
-  nextReservationId++,
+    nextReservationId,
     guest1,
     selectedRoom->getRoomNumber(),
     selectedRoom->getRoomType(),
