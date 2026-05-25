@@ -63,14 +63,25 @@ void viewReservations() {
 
     cout << "\n========== Saved Reservations ==========" << endl;
 
+    bool empty = true;
+
     while (getline(inFile, line)) {
-        cout << line << endl;
+
+        if (!line.empty()) {
+            empty = false;
+            cout << line << endl;
+        }
+    }
+
+    if (empty) {
+        cout << "\nNo reservations found yet." << endl;
     }
 
     cout << "========================================" << endl;
 
     inFile.close();
 }
+
 void cancelReservation() {
 
     ifstream inFile("data/reservations.txt");
@@ -135,6 +146,42 @@ catch (...) {
     else {
         cout << "\nReservation ID not found." << endl;
     }
+}
+int getNextReservationId() {
+    ifstream inFile("data/reservations.txt");
+
+    if (!inFile.is_open()) {
+        return 1001;
+    }
+
+    string line;
+    int maxId = 1000;
+
+    while (getline(inFile, line)) {
+        if (line.empty()) {
+            continue;
+        }
+
+        stringstream ss(line);
+        string idText;
+
+        getline(ss, idText, '|');
+
+        try {
+            int id = stoi(idText);
+
+            if (id > maxId) {
+                maxId = id;
+            }
+        }
+        catch (...) {
+            continue;
+        }
+    }
+
+    inFile.close();
+
+    return maxId + 1;
 }
 int main() {
 
@@ -392,7 +439,7 @@ Payment payment1(
 );
 
 payment1.processPayment();
-static int nextReservationId = 1001;
+int nextReservationId = getNextReservationId();
 Reservation reservation1(
   nextReservationId++,
     guest1,
