@@ -489,7 +489,6 @@ if (paymentFile.is_open()) {
                 << paymentMethod << "|"
                 << payment1.getMaskedCardNumber()
                 << endl;
-
     paymentFile.close();
 }
 
