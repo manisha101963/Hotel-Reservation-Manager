@@ -262,23 +262,39 @@ do {
     }
 
 } while (guestCount <= 0);
-
 if (guestCount == 1) {
-    cout << "\nRecommended Room Types:" << endl;
-    cout << "1. Single Room" << endl;
-    cout << "2. Double Room" << endl;
-    cout << "3. Deluxe Room" << endl;
+
+    cout << "\nBased on your guest count, we recommend:" << endl;
+
+    cout << "\n1. Single Room" << endl;
+    cout << "   - Perfect for solo travelers" << endl;
+    cout << "   - Budget-friendly and comfortable" << endl;
+
+    cout << "\n2. Double Room" << endl;
+    cout << "   - Extra space for added comfort" << endl;
+    cout << "   - Great for relaxing stays" << endl;
+
+    cout << "   - Premium luxury experience" << endl;
+    cout << "   - Best for maximum comfort" << endl;
 }
 
 else if (guestCount == 2) {
-    cout << "\nRecommended Room Types:" << endl;
-    cout << "1. Double Room" << endl;
-    cout << "2. Deluxe Room" << endl;
-}
 
+    cout << "\nBased on your guest count, we recommend:" << endl;
+
+    cout << "\n1. Double Room" << endl;
+    cout << "   - Perfect for couples and friends" << endl;
+    cout << "   - Comfortable for 2 guests" << endl;
+
+    cout << "\n2. Deluxe Room" << endl;
+    cout << "   - Extra space and luxury experience" << endl;
+    cout << "   - Ideal for premium comfort" << endl;
+}
 else if (guestCount <= 4) {
-    cout << "\nRecommended Room Type:" << endl;
-    cout << "1. Deluxe Room" << endl;
+   cout << "\nBased on your guest count, we recommend:" << endl;
+cout << "1. Deluxe Room" << endl;
+cout << "   - Best for families and groups" << endl;
+cout << "   - Maximum 4 guests" << endl;
 }
 
 else {
