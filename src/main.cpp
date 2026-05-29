@@ -178,12 +178,68 @@ int getNextReservationId() {
     inFile.close();
 
     return maxId + 1;
+
+}
+
+bool isRoomAvailableForDates(int roomNumber, string newCheckIn, string newCheckOut) {
+    ifstream inFile("data/reservations.txt");
+
+    if (!inFile.is_open()) {
+        return true;
+    }
+
+    string line;
+
+    while (getline(inFile, line)) {
+        if (line.empty()) {
+            continue;
+        }
+
+        stringstream ss(line);
+
+        string reservationId;
+        string guestId;
+        string guestName;
+        string phone;
+        string roomNumberText;
+        string roomType;
+        string oldCheckIn;
+        string oldCheckOut;
+
+        getline(ss, reservationId, '|');
+        getline(ss, guestId, '|');
+        getline(ss, guestName, '|');
+        getline(ss, phone, '|');
+        getline(ss, roomNumberText, '|');
+        getline(ss, roomType, '|');
+        getline(ss, oldCheckIn, '|');
+        getline(ss, oldCheckOut, '|');
+
+        int oldRoomNumber;
+
+        try {
+            oldRoomNumber = stoi(roomNumberText);
+        }
+        catch (...) {
+            continue;
+        }
+
+        if (oldRoomNumber == roomNumber) {
+            if (newCheckIn < oldCheckOut && newCheckOut > oldCheckIn) {
+                inFile.close();
+                return false;
+            }
+        }
+    }
+
+    inFile.close();
+    return true;
 }
 
 int main() {
 
     HotelManager hotel;
-    hotel.loadBookedRoomsFromFile();
+    //hotel.loadBookedRoomsFromFile();
 
     while (true) {
 
@@ -363,10 +419,11 @@ int main() {
                 cout << "Please choose an available room number." << endl;
             }
 
-            else if (selectedRoom->getStatus()) {
-                cout << "\nSorry, this room is already booked." << endl;
+           else if (!isRoomAvailableForDates(roomNumber, checkInDate, checkOutDate)) {
+                cout << "\nSorry, this room is already booked for those dates." << endl;
                 cout << "Please choose another room number." << endl;
                 selectedRoom = nullptr;
+
             }
 
         } while (selectedRoom == nullptr);
