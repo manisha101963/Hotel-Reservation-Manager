@@ -583,5 +583,26 @@ else {
     cout << "\nError: Could not open reservations file." << endl;
 }
 
+int nextChoice;
+
+cout << "\n===================================" << endl;
+cout << "What would you like to do next?" << endl;
+cout << "1. Book Another Room" << endl;
+cout << "2. Exit" << endl;
+cout << "Enter choice: ";
+cin >> nextChoice;
+
+if (nextChoice == 1) {
+
+    cout << "\nRestarting booking system..." << endl;
+
+    main();
+}
+
+else {
+
+    cout << "\nThank you for choosing MPS Hotel!" << endl;
+}
+
 return 0;
 }
