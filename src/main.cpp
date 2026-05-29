@@ -226,6 +226,65 @@ if (mainChoice != 1) {
 
     showAllRoomFeatures();
 
+
+string checkInDate;
+string checkOutDate;
+int guestCount;
+
+cin.ignore();
+
+do {
+    cout << "\nEnter Check-in Date (YYYY-MM-DD): ";
+    getline(cin, checkInDate);
+
+    if (!isValidDate(checkInDate)) {
+        cout << "Invalid date format. Please use YYYY-MM-DD." << endl;
+    }
+
+} while (!isValidDate(checkInDate));
+
+do {
+    cout << "Enter Check-out Date (YYYY-MM-DD): ";
+    getline(cin, checkOutDate);
+
+    if (!isValidDate(checkOutDate)) {
+        cout << "Invalid date format. Please use YYYY-MM-DD." << endl;
+    }
+
+} while (!isValidDate(checkOutDate));
+
+do {
+    cout << "Enter Number of Guests: ";
+    cin >> guestCount;
+
+    if (guestCount <= 0) {
+        cout << "Guest count must be greater than 0." << endl;
+    }
+
+} while (guestCount <= 0);
+
+if (guestCount == 1) {
+    cout << "\nRecommended Room Types:" << endl;
+    cout << "1. Single Room" << endl;
+    cout << "2. Double Room" << endl;
+    cout << "3. Deluxe Room" << endl;
+}
+
+else if (guestCount == 2) {
+    cout << "\nRecommended Room Types:" << endl;
+    cout << "1. Double Room" << endl;
+    cout << "2. Deluxe Room" << endl;
+}
+
+else if (guestCount <= 4) {
+    cout << "\nRecommended Room Type:" << endl;
+    cout << "1. Deluxe Room" << endl;
+}
+
+else {
+    cout << "\nSorry, we do not support more than 4 guests per room." << endl;
+    return 0;
+}
 do {
     cout << "\nPlease choose your preferred room type:";
     cin >> choice;
@@ -355,29 +414,8 @@ if (guestFile.is_open()) {
     guestFile.close();
 }
 
-   string checkInDate;
-string checkOutDate;
+   
 int nights;
-
-do {
-    cout << "\nEnter Check-in Date (YYYY-MM-DD): ";
-    getline(cin, checkInDate);
-
-    if (!isValidDate(checkInDate)) {
-        cout << "Invalid date format. Please use YYYY-MM-DD." << endl;
-    }
-
-} while (!isValidDate(checkInDate));
-
-do {
-    cout << "Enter Check-out Date (YYYY-MM-DD): ";
-    getline(cin, checkOutDate);
-
-    if (!isValidDate(checkOutDate)) {
-        cout << "Invalid date format. Please use YYYY-MM-DD." << endl;
-    }
-
-} while (!isValidDate(checkOutDate));
 
 do {
     cout << "Enter Number of Nights: ";
@@ -388,7 +426,6 @@ do {
     }
 
 } while (nights <= 0);
-
 double totalPrice =
     selectedRoom->getPricePerNight() * nights;
     string paymentMethod;
