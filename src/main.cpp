@@ -274,6 +274,7 @@ if (guestCount == 1) {
     cout << "   - Extra space for added comfort" << endl;
     cout << "   - Great for relaxing stays" << endl;
 
+    cout << "\n3. Deluxe Room" << endl;
     cout << "   - Premium luxury experience" << endl;
     cout << "   - Best for maximum comfort" << endl;
 }
