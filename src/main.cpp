@@ -3,6 +3,7 @@
 #include <cctype>
 #include <vector>
 #include <sstream>
+#include <string>
 
 #include "../include/HotelManager.h"
 #include "../include/Guest.h"
@@ -10,8 +11,26 @@
 #include "../include/Payment.h"
 #include "../include/User.h"
 
-
 using namespace std;
+
+int getValidInteger(string message) {
+    int value;
+
+    while (true) {
+        cout << message;
+        cin >> value;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input. Please enter numbers only." << endl;
+        }
+        else {
+            cin.ignore(1000, '\n');
+            return value;
+        }
+    }
+}
 
 void showAllRoomFeatures() {
     SingleRoom single(101);
@@ -93,10 +112,8 @@ void cancelReservation() {
 
     vector<string> reservations;
     string line;
-    int cancelId;
 
-    cout << "\nEnter Reservation ID to cancel: ";
-    cin >> cancelId;
+    int cancelId = getValidInteger("\nEnter Reservation ID to cancel: ");
 
     bool found = false;
 
@@ -180,7 +197,6 @@ int getNextReservationId() {
     inFile.close();
 
     return maxId + 1;
-
 }
 
 bool isRoomAvailableForDates(int roomNumber, string newCheckIn, string newCheckOut) {
@@ -241,7 +257,6 @@ bool isRoomAvailableForDates(int roomNumber, string newCheckIn, string newCheckO
 int main() {
 
     HotelManager hotel;
-    //hotel.loadBookedRoomsFromFile();
 
     while (true) {
 
@@ -251,8 +266,8 @@ int main() {
         cout << "2. View Reservations" << endl;
         cout << "3. Cancel Reservation" << endl;
         cout << "4. Exit" << endl;
-        cout << "Enter choice: ";
-        cin >> mainChoice;
+
+        mainChoice = getValidInteger("Enter choice: ");
 
         if (mainChoice == 2) {
             viewReservations();
@@ -289,8 +304,6 @@ int main() {
         string checkOutDate;
         int guestCount;
 
-        cin.ignore();
-
         do {
             cout << "\nEnter Check-in Date (YYYY-MM-DD): ";
             getline(cin, checkInDate);
@@ -308,12 +321,14 @@ int main() {
             if (!isValidDate(checkOutDate)) {
                 cout << "Invalid date format. Please use YYYY-MM-DD." << endl;
             }
+            else if (checkOutDate <= checkInDate) {
+                cout << "Check-out date must be after check-in date." << endl;
+            }
 
-        } while (!isValidDate(checkOutDate));
+        } while (!isValidDate(checkOutDate) || checkOutDate <= checkInDate);
 
         do {
-            cout << "Enter Number of Guests: ";
-            cin >> guestCount;
+            guestCount = getValidInteger("Enter Number of Guests: ");
 
             if (guestCount <= 0) {
                 cout << "Guest count must be greater than 0." << endl;
@@ -364,8 +379,7 @@ int main() {
         bool validRoomChoice = false;
 
         do {
-            cout << "\nPlease choose your preferred room type: ";
-            cin >> choice;
+            choice = getValidInteger("\nPlease choose your preferred room type: ");
 
             if (choice < 1 || choice > 3) {
                 cout << "\nSorry, we do not have that room type." << endl;
@@ -411,8 +425,7 @@ int main() {
         Room* selectedRoom = nullptr;
 
         do {
-            cout << "\nWhich room number do you want to book? ";
-            cin >> roomNumber;
+            roomNumber = getValidInteger("\nWhich room number do you want to book? ");
 
             selectedRoom = hotel.findRoom(roomNumber);
 
@@ -421,76 +434,62 @@ int main() {
                 cout << "Please choose an available room number." << endl;
             }
 
-           else if (!isRoomAvailableForDates(roomNumber, checkInDate, checkOutDate)) {
+            else if (!isRoomAvailableForDates(roomNumber, checkInDate, checkOutDate)) {
                 cout << "\nSorry, this room is already booked for those dates." << endl;
                 cout << "Please choose another room number." << endl;
                 selectedRoom = nullptr;
-
             }
 
         } while (selectedRoom == nullptr);
 
         cout << "\nRoom " << roomNumber << " is available." << endl;
+
+        User currentUser;
+        int userChoice;
+        bool loggedIn = false;
+        bool exitBooking = false;
+
+        cout << "\nTo continue booking, you must login or register." << endl;
+
+        do {
+            cout << "\n1. Register" << endl;
+            cout << "2. Login" << endl;
+            cout << "3. Exit Booking" << endl;
+
+            userChoice = getValidInteger("Enter choice: ");
+
+            if (userChoice == 1) {
+                currentUser.registerUser();
+                loggedIn = currentUser.login();
+            }
+
+            else if (userChoice == 2) {
+                loggedIn = currentUser.login();
+            }
+
+            else if (userChoice == 3) {
+                cout << "\nReturning to main menu..." << endl;
+                exitBooking = true;
+                break;
+            }
+
+            else {
+                cout << "Invalid choice. Please try again." << endl;
+            }
+
+        } while (!loggedIn);
+
+        if (exitBooking) {
+            continue;
+        }
+
         cout << "Please enter guest information." << endl;
-
-User currentUser;
-int userChoice;
-bool loggedIn = false;
-bool exitBooking = false;
-
-cout << "\nTo continue booking, you must login or register." << endl;
-
-do {
-    cout << "\n1. Register" << endl;
-    cout << "2. Login" << endl;
-    cout << "3. Exit Booking" << endl;
-
-    cout << "Enter choice: ";
-    cin >> userChoice;
-
-    if (userChoice == 1) {
-        currentUser.registerUser();
-        loggedIn = currentUser.login();
-    }
-
-    else if (userChoice == 2) {
-        loggedIn = currentUser.login();
-    }
-
-    else if (userChoice == 3) {
-        cout << "\nReturning to main menu..." << endl;
-        exitBooking = true;
-        break;
-    }
-
-    else {
-        cout << "Invalid choice. Please try again." << endl;
-    }
-
-} while (!loggedIn);
-
-if (exitBooking) {
-    continue;
-}
 
         int guestId;
         string name;
         string phone;
 
-        while (true) {
-            cout << "\nEnter Guest ID: ";
-            cin >> guestId;
-
-            if (cin.fail()) {
-                cin.clear();
-                cin.ignore(1000, '\n');
-                cout << "Invalid Guest ID. Please enter numbers only." << endl;
-            }
-            else {
-                cin.ignore(1000, '\n');
-                break;
-            }
-        }
+        guestId = getValidInteger("\nEnter Guest ID: ");
 
         do {
             cout << "Enter Guest Name: ";
@@ -559,8 +558,7 @@ if (exitBooking) {
         int nights;
 
         do {
-            cout << "Enter Number of Nights: ";
-            cin >> nights;
+            nights = getValidInteger("Enter Number of Nights: ");
 
             if (nights <= 0) {
                 cout << "Number of nights must be greater than 0." << endl;
@@ -574,8 +572,6 @@ if (exitBooking) {
         string cardHolderName;
         string cardNumber;
 
-        cin.ignore();
-
         int paymentChoice;
 
         do {
@@ -583,8 +579,7 @@ if (exitBooking) {
             cout << "1. Credit Card" << endl;
             cout << "2. Debit Card" << endl;
 
-            cout << "Enter choice: ";
-            cin >> paymentChoice;
+            paymentChoice = getValidInteger("Enter choice: ");
 
             if (paymentChoice == 1) {
                 paymentMethod = "Credit Card";
@@ -597,8 +592,6 @@ if (exitBooking) {
             }
 
         } while (paymentChoice != 1 && paymentChoice != 2);
-
-        cin.ignore();
 
         do {
             cout << "Enter Card Holder Name: ";
@@ -706,9 +699,9 @@ if (exitBooking) {
             outFile.close();
 
             cout << "\nReservation saved to file successfully." << endl;
-             cout << "\nLogging out user..." << endl;
-    cout << "Logout successful." << endl;
-    cout << "\nReturning to main menu..." << endl;
+            cout << "\nLogging out user..." << endl;
+            cout << "Logout successful." << endl;
+            cout << "\nReturning to main menu..." << endl;
         }
         else {
             cout << "\nError: Could not open reservations file." << endl;
