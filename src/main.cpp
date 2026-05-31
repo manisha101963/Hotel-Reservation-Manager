@@ -433,38 +433,45 @@ int main() {
         cout << "\nRoom " << roomNumber << " is available." << endl;
         cout << "Please enter guest information." << endl;
 
-        User currentUser;
-        int userChoice;
-        bool loggedIn = false;
+User currentUser;
+int userChoice;
+bool loggedIn = false;
+bool exitBooking = false;
 
 cout << "\nTo continue booking, you must login or register." << endl;
+
 do {
-cout << "\n1. Register" << endl;
-cout << "2. Login" << endl;
-cout << "3. Exit Booking" << endl;
+    cout << "\n1. Register" << endl;
+    cout << "2. Login" << endl;
+    cout << "3. Exit Booking" << endl;
 
-cout << "Enter choice: ";
-cin >> userChoice;
+    cout << "Enter choice: ";
+    cin >> userChoice;
 
-if (userChoice == 1) {
-    currentUser.registerUser();
-    loggedIn = currentUser.login();
-}
+    if (userChoice == 1) {
+        currentUser.registerUser();
+        loggedIn = currentUser.login();
+    }
 
-else if (userChoice == 2) {
-    loggedIn = currentUser.login();
-}
+    else if (userChoice == 2) {
+        loggedIn = currentUser.login();
+    }
 
-else if (userChoice == 3) {
-    cout << "\nReturning to main menu..." << endl;
-    break;
-}
+    else if (userChoice == 3) {
+        cout << "\nReturning to main menu..." << endl;
+        exitBooking = true;
+        break;
+    }
 
-else {
-    cout << "Invalid choice. Please try again." << endl;
-}
+    else {
+        cout << "Invalid choice. Please try again." << endl;
+    }
 
 } while (!loggedIn);
+
+if (exitBooking) {
+    continue;
+}
 
         int guestId;
         string name;
