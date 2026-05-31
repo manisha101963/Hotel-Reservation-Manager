@@ -424,23 +424,32 @@ int main() {
 
         Room* selectedRoom = nullptr;
 
-        do {
-            roomNumber = getValidInteger("\nWhich room number do you want to book? ");
+do {
+    roomNumber = getValidInteger("\nWhich room number do you want to book? ");
 
-            selectedRoom = hotel.findRoom(roomNumber);
+    selectedRoom = hotel.findRoom(roomNumber);
 
-            if (selectedRoom == nullptr) {
-                cout << "\nSorry, that room does not exist." << endl;
-                cout << "Please choose an available room number." << endl;
-            }
+    if (selectedRoom == nullptr) {
+        cout << "\nSorry, that room does not exist." << endl;
+        cout << "Please choose an available room number." << endl;
+    }
 
-            else if (!isRoomAvailableForDates(roomNumber, checkInDate, checkOutDate)) {
-                cout << "\nSorry, this room is already booked for those dates." << endl;
-                cout << "Please choose another room number." << endl;
-                selectedRoom = nullptr;
-            }
+    else if (selectedRoom->getRoomType() !=
+             (choice == 1 ? "Single Room" :
+              choice == 2 ? "Double Room" : "Deluxe Room")) {
 
-        } while (selectedRoom == nullptr);
+        cout << "\nThat room number does not belong to the selected room type." << endl;
+        cout << "Please choose a correct room number from the displayed list." << endl;
+        selectedRoom = nullptr;
+    }
+
+    else if (!isRoomAvailableForDates(roomNumber, checkInDate, checkOutDate)) {
+        cout << "\nSorry, this room is already booked for those dates." << endl;
+        cout << "Please choose another room number." << endl;
+        selectedRoom = nullptr;
+    }
+
+} while (selectedRoom == nullptr);
 
         cout << "\nRoom " << roomNumber << " is available." << endl;
 

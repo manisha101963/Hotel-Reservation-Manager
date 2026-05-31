@@ -1,3 +1,6 @@
 
 pam|12345|pam
 weefkkf|clr|mansji
+mani@gmail.com|0000|mani@gmail.com
+mani|0000|mani@gmail.com
+sani|12345|sani@gmail.com

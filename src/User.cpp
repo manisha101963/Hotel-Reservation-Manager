@@ -19,17 +19,55 @@ string User::getEmail() {
     return email;
 }
 
+bool isValidEmail(string email) {
+    if (email.empty()) {
+        return false;
+    }
+
+    if (email.find('@') == string::npos ||
+        email.find('.') == string::npos) {
+        return false;
+    }
+
+    if (email.front() == '@' || email.back() == '@') {
+        return false;
+    }
+
+    return true;
+}
+
 void User::registerUser() {
     cout << "\n===== User Registration =====" << endl;
 
-    cout << "Create Username: ";
-    cin >> username;
+    do {
+        cout << "Create Username: ";
+        cin >> username;
 
-    cout << "Create Password: ";
-    cin >> password;
+        if (username.empty()) {
+            cout << "Username cannot be empty." << endl;
+        }
 
-    cout << "Enter Email: ";
-    cin >> email;
+    } while (username.empty());
+
+    do {
+        cout << "Create Password: ";
+        cin >> password;
+
+        if (password.length() < 4) {
+            cout << "Password must be at least 4 characters." << endl;
+        }
+
+    } while (password.length() < 4);
+
+    do {
+        cout << "Enter Email: ";
+        cin >> email;
+
+        if (!isValidEmail(email)) {
+            cout << "Invalid email format. Please try again." << endl;
+        }
+
+    } while (!isValidEmail(email));
 
     ofstream outFile("data/users.txt", ios::app);
 
@@ -54,26 +92,8 @@ bool User::login() {
 
     cout << "\n===== User Login =====" << endl;
 
-   do {
-    cout << "Enter Email: ";
-    cin >> email;
-
-    bool validEmail = true;
-
-    if (email.find('@') == string::npos ||
-        email.find('.') == string::npos) {
-
-        validEmail = false;
-    }
-
-    if (!validEmail) {
-        cout << "Invalid email format. Please try again." << endl;
-    }
-    else {
-        break;
-    }
-
-} while (true);
+    cout << "Enter Username: ";
+    cin >> inputUsername;
 
     cout << "Enter Password: ";
     cin >> inputPassword;
