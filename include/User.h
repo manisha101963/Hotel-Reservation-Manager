@@ -2,7 +2,6 @@
 #define USER_H
 
 #include <string>
-
 using namespace std;
 
 class User {
@@ -14,16 +13,10 @@ private:
 public:
     User();
 
-    User(string user,
-         string pass,
-         string mail);
-
     string getUsername();
-    string getPassword();
     string getEmail();
 
     void registerUser();
-
     bool login();
 };
 

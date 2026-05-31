@@ -8,6 +8,8 @@
 #include "../include/Guest.h"
 #include "../include/Reservation.h"
 #include "../include/Payment.h"
+#include "../include/User.h"
+
 
 using namespace std;
 
@@ -430,6 +432,31 @@ int main() {
 
         cout << "\nRoom " << roomNumber << " is available." << endl;
         cout << "Please enter guest information." << endl;
+
+        User currentUser;
+        int userChoice;
+        bool loggedIn = false;
+
+cout << "\nTo continue booking, you must login or register." << endl;
+
+do {
+    cout << "\n1. Register" << endl;
+    cout << "2. Login" << endl;
+    cout << "Enter choice: ";
+    cin >> userChoice;
+
+    if (userChoice == 1) {
+        currentUser.registerUser();
+        loggedIn = currentUser.login();
+    }
+    else if (userChoice == 2) {
+        loggedIn = currentUser.login();
+    }
+    else {
+        cout << "Invalid choice. Please try again." << endl;
+    }
+
+} while (!loggedIn);
 
         int guestId;
         string name;

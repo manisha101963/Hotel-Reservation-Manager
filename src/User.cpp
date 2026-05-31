@@ -1,6 +1,7 @@
 #include "../include/User.h"
-
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -10,21 +11,8 @@ User::User() {
     email = "";
 }
 
-User::User(string user,
-           string pass,
-           string mail) {
-
-    username = user;
-    password = pass;
-    email = mail;
-}
-
 string User::getUsername() {
     return username;
-}
-
-string User::getPassword() {
-    return password;
 }
 
 string User::getEmail() {
@@ -32,48 +20,84 @@ string User::getEmail() {
 }
 
 void User::registerUser() {
+    cout << "\n===== User Registration =====" << endl;
 
-    cout << "\n===== User Registration ====="
-         << endl;
-
-    cout << "Enter Username: ";
+    cout << "Create Username: ";
     cin >> username;
 
-    cout << "Enter Password: ";
+    cout << "Create Password: ";
     cin >> password;
 
     cout << "Enter Email: ";
     cin >> email;
 
-    cout << "\nRegistration Successful!"
-         << endl;
+    ofstream outFile("data/users.txt", ios::app);
+
+    if (outFile.is_open()) {
+        outFile << username << "|"
+                << password << "|"
+                << email << endl;
+
+        outFile.close();
+
+        cout << "\nRegistration successful!" << endl;
+        cout << "Please login to continue booking." << endl;
+    }
+    else {
+        cout << "\nError: Could not save user data." << endl;
+    }
 }
 
 bool User::login() {
+    string inputUsername;
+    string inputPassword;
 
-    string inputUser;
-    string inputPass;
-
-    cout << "\n===== Login ====="
-         << endl;
+    cout << "\n===== User Login =====" << endl;
 
     cout << "Enter Username: ";
-    cin >> inputUser;
+    cin >> inputUsername;
 
     cout << "Enter Password: ";
-    cin >> inputPass;
+    cin >> inputPassword;
 
-    if (inputUser == username &&
-        inputPass == password) {
+    ifstream inFile("data/users.txt");
 
-        cout << "\nLogin Successful!"
-             << endl;
-
-        return true;
+    if (!inFile.is_open()) {
+        cout << "\nNo registered users found. Please register first." << endl;
+        return false;
     }
 
-    cout << "\nInvalid Username or Password."
-         << endl;
+    string line;
 
+    while (getline(inFile, line)) {
+        stringstream ss(line);
+
+        string savedUsername;
+        string savedPassword;
+        string savedEmail;
+
+        getline(ss, savedUsername, '|');
+        getline(ss, savedPassword, '|');
+        getline(ss, savedEmail, '|');
+
+        if (inputUsername == savedUsername &&
+            inputPassword == savedPassword) {
+
+            username = savedUsername;
+            password = savedPassword;
+            email = savedEmail;
+
+            inFile.close();
+
+            cout << "\nLogin successful!" << endl;
+            cout << "Welcome, " << username << "!" << endl;
+
+            return true;
+        }
+    }
+
+    inFile.close();
+
+    cout << "\nInvalid username or password." << endl;
     return false;
 }
