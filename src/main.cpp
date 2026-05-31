@@ -691,6 +691,9 @@ do {
             outFile.close();
 
             cout << "\nReservation saved to file successfully." << endl;
+             cout << "\nLogging out user..." << endl;
+    cout << "Logout successful." << endl;
+    cout << "\nReturning to main menu..." << endl;
         }
         else {
             cout << "\nError: Could not open reservations file." << endl;
