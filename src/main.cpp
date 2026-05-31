@@ -438,23 +438,31 @@ int main() {
         bool loggedIn = false;
 
 cout << "\nTo continue booking, you must login or register." << endl;
-
 do {
-    cout << "\n1. Register" << endl;
-    cout << "2. Login" << endl;
-    cout << "Enter choice: ";
-    cin >> userChoice;
+cout << "\n1. Register" << endl;
+cout << "2. Login" << endl;
+cout << "3. Exit Booking" << endl;
 
-    if (userChoice == 1) {
-        currentUser.registerUser();
-        loggedIn = currentUser.login();
-    }
-    else if (userChoice == 2) {
-        loggedIn = currentUser.login();
-    }
-    else {
-        cout << "Invalid choice. Please try again." << endl;
-    }
+cout << "Enter choice: ";
+cin >> userChoice;
+
+if (userChoice == 1) {
+    currentUser.registerUser();
+    loggedIn = currentUser.login();
+}
+
+else if (userChoice == 2) {
+    loggedIn = currentUser.login();
+}
+
+else if (userChoice == 3) {
+    cout << "\nReturning to main menu..." << endl;
+    break;
+}
+
+else {
+    cout << "Invalid choice. Please try again." << endl;
+}
 
 } while (!loggedIn);
 
