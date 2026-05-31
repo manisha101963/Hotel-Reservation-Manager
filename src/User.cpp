@@ -54,8 +54,26 @@ bool User::login() {
 
     cout << "\n===== User Login =====" << endl;
 
-    cout << "Enter Username: ";
-    cin >> inputUsername;
+   do {
+    cout << "Enter Email: ";
+    cin >> email;
+
+    bool validEmail = true;
+
+    if (email.find('@') == string::npos ||
+        email.find('.') == string::npos) {
+
+        validEmail = false;
+    }
+
+    if (!validEmail) {
+        cout << "Invalid email format. Please try again." << endl;
+    }
+    else {
+        break;
+    }
+
+} while (true);
 
     cout << "Enter Password: ";
     cin >> inputPassword;
