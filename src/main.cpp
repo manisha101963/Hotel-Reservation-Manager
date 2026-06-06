@@ -289,6 +289,27 @@ bool isRoomAvailableForDates(int roomNumber, string newCheckIn, string newCheckO
     inFile.close();
     return true;
 }
+int calculateNights(string checkInDate, string checkOutDate) {
+    int checkInYear = stoi(checkInDate.substr(0, 4));
+    int checkInMonth = stoi(checkInDate.substr(5, 2));
+    int checkInDay = stoi(checkInDate.substr(8, 2));
+
+    int checkOutYear = stoi(checkOutDate.substr(0, 4));
+    int checkOutMonth = stoi(checkOutDate.substr(5, 2));
+    int checkOutDay = stoi(checkOutDate.substr(8, 2));
+
+    int checkInTotalDays =
+        checkInYear * 365 +
+        checkInMonth * 30 +
+        checkInDay;
+
+    int checkOutTotalDays =
+        checkOutYear * 365 +
+        checkOutMonth * 30 +
+        checkOutDay;
+
+    return checkOutTotalDays - checkInTotalDays;
+}
 
 int main() {
 
@@ -601,16 +622,10 @@ do {
             guestFile.close();
         }
 
-        int nights;
+       int nights = calculateNights(checkInDate, checkOutDate);
 
-        do {
-            nights = getValidInteger("Enter Number of Nights: ");
+        cout << "\nNumber of Nights: " << nights << endl;
 
-            if (nights <= 0) {
-                cout << "Number of nights must be greater than 0." << endl;
-            }
-
-        } while (nights <= 0);
 
         double totalPrice = selectedRoom->getPricePerNight() * nights;
 

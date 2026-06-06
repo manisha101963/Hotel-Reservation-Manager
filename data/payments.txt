@@ -9,3 +9,5 @@
 1008|Credit Card|****2355
 1009|Credit Card|****5678
 1010|Debit Card|****3234
+1011|Credit Card|****4567
+1012|Credit Card|Invalid Card
