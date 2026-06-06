@@ -72,6 +72,42 @@ bool isValidDate(string date) {
 
     return true;
 }
+bool isRoomAvailableForDates(int roomNumber,
+                             string newCheckIn,
+                             string newCheckOut);
+
+
+void showRoomsByTypeForDates(HotelManager& hotel, int choice, string checkInDate, string checkOutDate) {
+    cout << "\nAvailable Rooms:" << endl;
+
+    int startRoom, endRoom;
+
+    if (choice == 1) {
+        startRoom = 101;
+        endRoom = 110;
+    }
+    else if (choice == 2) {
+        startRoom = 201;
+        endRoom = 210;
+    }
+    else {
+        startRoom = 301;
+        endRoom = 310;
+    }
+
+    for (int roomNumber = startRoom; roomNumber <= endRoom; roomNumber++) {
+        cout << roomNumber;
+
+        if (isRoomAvailableForDates(roomNumber, checkInDate, checkOutDate)) {
+            cout << " - Available";
+        }
+        else {
+            cout << " - Booked";
+        }
+
+        cout << endl;
+    }
+}
 
 void viewReservations() {
     ifstream inFile("data/reservations.txt");
@@ -420,7 +456,8 @@ int main() {
             cout << "Let's continue with your booking." << endl;
         }
 
-        hotel.showRoomsByType(choice);
+       // hotel.showRoomsByType(choice);
+       showRoomsByTypeForDates(hotel, choice, checkInDate, checkOutDate);
 
         Room* selectedRoom = nullptr;
 

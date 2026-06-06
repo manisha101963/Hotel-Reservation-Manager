@@ -7,3 +7,5 @@
 1006|Debit Card|****7878
 1007|Credit Card|****9854
 1008|Credit Card|****2355
+1009|Credit Card|****5678
+1010|Debit Card|****3234
