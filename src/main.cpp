@@ -145,6 +145,62 @@ void viewReservations() {
     inFile.close();
 }
 
+void searchReservation() {
+
+    ifstream inFile("data/reservations.txt");
+
+    if (!inFile.is_open()) {
+        cout << "\nReservation file not found." << endl;
+        return;
+    }
+
+    int searchId =
+        getValidInteger("\nEnter Reservation ID to search: ");
+
+    string line;
+    bool found = false;
+
+    while (getline(inFile, line)) {
+
+        if (line.empty()) {
+            continue;
+        }
+
+        stringstream ss(line);
+
+        string reservationIdText;
+
+        getline(ss, reservationIdText, '|');
+
+        try {
+
+            int reservationId =
+                stoi(reservationIdText);
+
+            if (reservationId == searchId) {
+
+                cout << "\n===== Reservation Found ====="
+                     << endl;
+
+                cout << line << endl;
+
+                found = true;
+                break;
+            }
+
+        }
+        catch (...) {
+            continue;
+        }
+    }
+
+    inFile.close();
+
+    if (!found) {
+        cout << "\nReservation not found." << endl;
+    }
+}
+
 void cancelReservation() {
     ifstream inFile("data/reservations.txt");
 
@@ -326,10 +382,11 @@ int main() {
 
         int mainChoice;
 
-        cout << "\n1. Book Room" << endl;
-        cout << "2. View Reservations" << endl;
-        cout << "3. Cancel Reservation" << endl;
-        cout << "4. Exit" << endl;
+cout << "\n1. Book Room" << endl;
+cout << "2. View Reservations" << endl;
+cout << "3. Cancel Reservation" << endl;
+cout << "4. Search Reservation" << endl;
+cout << "5. Exit" << endl;
 
         mainChoice = getValidInteger("Enter choice: ");
 
@@ -343,10 +400,15 @@ int main() {
             continue;
         }
 
-        if (mainChoice == 4) {
-            cout << "\nThank you for visiting MPS Hotel." << endl;
-            break;
-        }
+if (mainChoice == 4) {
+    searchReservation();
+    continue;
+}
+
+if (mainChoice == 5) {
+    cout << "\nThank you for visiting MPS Hotel." << endl;
+    break;
+}
 
         if (mainChoice != 1) {
             cout << "\nInvalid choice." << endl;
