@@ -1,13 +1,17 @@
 CXX = g++
 CXXFLAGS = -Iinclude
-SRC = src/*.cpp
-TARGET = hotel
+SRC = $(wildcard src/*.cpp)
+TARGET = hotel.exe
 
-all:
+.PHONY: all run clean
+
+all: $(TARGET)
+
+$(TARGET): $(SRC)
 	$(CXX) $(SRC) $(CXXFLAGS) -o $(TARGET)
 
-run:
-	./$(TARGET).exe
+run: $(TARGET)
+	./$(TARGET)
 
 clean:
-	rm -f $(TARGET).exe
+	rm -f $(TARGET)
