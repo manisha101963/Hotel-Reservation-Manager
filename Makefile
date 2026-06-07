@@ -14,4 +14,4 @@ run: $(TARGET)
 	./$(TARGET)
 
 clean:
-	-del /Q $(TARGET) 2>NUL
+	rm -f $(TARGET)
