@@ -5,6 +5,9 @@
 #include <sstream>
 #include <string>
 
+#include <cstdlib>
+
+
 #include "../include/HotelManager.h"
 #include "../include/Guest.h"
 #include "../include/Reservation.h"
@@ -18,9 +21,13 @@ int getValidInteger(string message) {
 
     while (true) {
         cout << message;
-        cin >> value;
 
-        if (cin.fail()) {
+        if (!(cin >> value)) {
+            if (cin.eof()) {
+                cout << "\nInput closed. Exiting program." << endl;
+                exit(0);
+            }
+
             cin.clear();
             cin.ignore(1000, '\n');
             cout << "Invalid input. Please enter numbers only." << endl;
