@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cctype>
 
 using namespace std;
 
@@ -49,15 +50,36 @@ void User::registerUser() {
 
     } while (username.empty());
 
+    // do {
+    //     cout << "Create Password: ";
+    //     cin >> password;
+
+    //     if (password.length() < 4) {
+    //         cout << "Password must be at least 4 characters." << endl;
+    //     }
+
+    // } while (password.length() < 4);
+
     do {
-        cout << "Create Password: ";
-        cin >> password;
+    cout << "Create Password: ";
+    cin >> password;
 
-        if (password.length() < 4) {
-            cout << "Password must be at least 4 characters." << endl;
+    bool hasDigit = false;
+
+    for (char c : password) {
+        if (isdigit(c)) {
+            hasDigit = true;
+            break;
         }
+    }
 
-    } while (password.length() < 4);
+    if (password.length() < 6 || !hasDigit) {
+        cout << "Password too weak." << endl;
+        cout << "Password must be at least 6 characters and contain at least one digit." << endl;
+    }
+
+} while (password.length() < 6 || password.find_first_of("0123456789") == string::npos);
+
 
     do {
         cout << "Enter Email: ";
