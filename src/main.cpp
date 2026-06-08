@@ -490,12 +490,13 @@ if (mainChoice == 5) {
             cout << "   - Ideal for premium comfort" << endl;
         }
 
-        else if (guestCount <= 4) {
-            cout << "\nBased on your guest count, we recommend:" << endl;
-            cout << "1. Deluxe Room" << endl;
-            cout << "   - Best for families and groups" << endl;
-            cout << "   - Maximum 4 guests" << endl;
-        }
+else if (guestCount <= 4) {
+    cout << "\nBased on your guest count, only one room type is available:" << endl;
+    cout << "3. Deluxe Room" << endl;
+    cout << "   - Best for families and groups" << endl;
+    cout << "   - Maximum 4 guests" << endl;
+    cout << "Please enter 3 when choosing the room type." << endl;
+}
 
         else {
             cout << "\nSorry, we do not support more than 4 guests per room." << endl;
