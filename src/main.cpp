@@ -116,6 +116,26 @@ void showRoomsByTypeForDates(HotelManager& hotel, int choice, string checkInDate
     }
 }
 
+bool verifyAdminAccess() {
+    const string adminPassword = "admin123";
+    string enteredPassword;
+
+    cout << "\nAdmin password required to view all reservations." << endl;
+    cout << "Enter admin password: ";
+    getline(cin, enteredPassword);
+
+    if (!enteredPassword.empty() && enteredPassword.back() == '\r') {
+        enteredPassword.pop_back();
+    }
+
+    if (enteredPassword == adminPassword) {
+        return true;
+    }
+
+    cout << "\nIncorrect admin password. Access denied." << endl;
+    return false;
+}
+
 void viewReservations() {
     ifstream inFile("data/reservations.txt");
 
@@ -391,7 +411,9 @@ cout << "5. Exit" << endl;
         mainChoice = getValidInteger("Enter choice: ");
 
         if (mainChoice == 2) {
-            viewReservations();
+            if (verifyAdminAccess()) {
+                viewReservations();
+            }
             continue;
         }
 
@@ -481,11 +503,11 @@ if (mainChoice == 5) {
         else if (guestCount == 2) {
             cout << "\nBased on your guest count, we recommend:" << endl;
 
-            cout << "\n1. Double Room" << endl;
+            cout << "\n2. Double Room" << endl;
             cout << "   - Perfect for couples and friends" << endl;
             cout << "   - Comfortable for 2 guests" << endl;
 
-            cout << "\n2. Deluxe Room" << endl;
+            cout << "\n3. Deluxe Room" << endl;
             cout << "   - Extra space and luxury experience" << endl;
             cout << "   - Ideal for premium comfort" << endl;
         }
